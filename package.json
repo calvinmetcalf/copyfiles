@@ -1,0 +1,24 @@
+{
+  "name": "copyfiles",
+  "version": "0.0.0",
+  "description": "copy some files",
+  "main": "index.js",
+  "bin": "./copyfiles",
+  "scripts": {
+    "test": "tape test/test.*.js | tspec"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mkdirp": "^0.3.5",
+    "glob": "^3.2.9",
+    "through2": "^0.4.1",
+    "stream-array": "^0.1.3",
+    "ltcdr": "^2.2.1"
+  },
+  "devDependencies": {
+    "rimraf": "^2.2.6",
+    "tape": "^2.10.2",
+    "tap-spec": "^0.1.5"
+  }
+}

@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+'use strict';
+var copyfiles = require('./index');
+var pkg = require('./package.json');
+var program = require('ltcdr');
+program.version(pkg.version)
+  .option('-u, --up [levels]', 'slice a path off the bottom of the paths', parseInt)
+  .usage('[options] inFile [more files ...] outDirectory')
+  .parse(process.argv);
+
+copyfiles(process.argv.slice(2), program.up, function (err) {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  } else {
+    process.exit(0);
+  }
+});
