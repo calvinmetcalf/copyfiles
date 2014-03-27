@@ -12,10 +12,13 @@ function dealWith(inPath, up) {
   if (!up) {
     return inPath;
   }
+  if (up === true) {
+    return path.basename(inPath);
+  }
   if (depth(inPath) < up) {
     throw new Error('cant go up that far');
   }
-  return path.join.apply(path, inPath.split(path.sep).slice(1));
+  return path.join.apply(path, inPath.split(path.sep).slice(up));
 }
 module.exports = copyFiles;
 function copyFiles(args, opts, callback) {

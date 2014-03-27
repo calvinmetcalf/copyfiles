@@ -34,6 +34,30 @@ copyfiles -u 1 something/*.js out
 
 which would put all the js files in `out`
 
+you can also just do -f which will flatten all the output into one directory, so with files ./foo/a.txt and ./foo/bar/b.txt
+
+```bash
+copyfiles -f ./foo/*.txt ./foo/bar/*.txt out
+```
+
+will put a.txt and b.txt into out
+
+if your terminal doesn't support globstars then you can quote them
+
+```bash
+copyfiles -f ./foo/**/*.txt out
+```
+
+does not work by default on a mac
+
+but 
+
+```bash
+copyfiles -f './foo/**/*.txt' out
+```
+
+does
+
 ### Programic API
 
 ```js
