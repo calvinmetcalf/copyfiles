@@ -63,7 +63,6 @@ does
 ```js
 var copyfiles = require('copyfiles');
 
-copyfiles([paths], up, callback);
+copyfiles([paths], opt, callback);
 ```
-takes an array of paths, last one is the destination path, also takes an optional up argument which is the same as the
-command line option.
+takes an array of paths, last one is the destination path, also takes an optional argument which the -u option if a number, otherwise if it's `true` it's the flat option.
