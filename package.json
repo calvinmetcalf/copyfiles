@@ -1,6 +1,6 @@
 {
   "name": "copyfiles",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "copy some files",
   "main": "index.js",
   "bin": "./copyfiles",
