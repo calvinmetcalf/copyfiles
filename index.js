@@ -4,7 +4,18 @@ var fs = require('fs');
 var glob = require('glob');
 var mkdirp = require('mkdirp');
 var through = require('through2').obj;
-var toStream = require('stream-array');
+var noms = require('noms').obj;
+function toStream(array) {
+  var length = array.length;
+  var i = 0;
+  return noms(function (done) {
+    if (i >= length) {
+      this.push(null);
+    }
+    this.push(array[i++]);
+    done();
+  });
+}
 function depth(string) {
   return path.normalize(string).split(path.sep).length - 1;
 }
