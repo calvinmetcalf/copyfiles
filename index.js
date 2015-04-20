@@ -29,7 +29,7 @@ function dealWith(inPath, up) {
   if (depth(inPath) < up) {
     throw new Error('cant go up that far');
   }
-  return path.join.apply(path, inPath.split(path.sep).slice(up));
+  return path.join.apply(path, path.normalize(inPath).split(path.sep).slice(up));
 }
 module.exports = copyFiles;
 function copyFiles(args, opts, callback) {
