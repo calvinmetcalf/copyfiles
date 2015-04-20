@@ -57,21 +57,36 @@ function copyFiles(args, opts, callback) {
     });
   }))
   .pipe(through(function (pathName, _, next) {
+    var pathStat = fs.statSync(pathName);
     var outName = path.join(outDir, dealWith(pathName, opts));
-    mkdirp(path.dirname(outName), function (err) {
-      if (err) {
-        return next(err);
-      }
-      fs.createReadStream(pathName)
-        .pipe(fs.createWriteStream(outName))
-        .on('error', next)
-        .on('finish', function () {
-          next(null, outName);
-        });
-    });
+    var self = this;
+    if (pathStat.isFile()) {
+      mkdirp(path.dirname(outName), function (err) {
+        if (err) {
+          return next(err);
+        }
+        next(null, pathName);
+      });
+    } else if (pathStat.isDirectory()) {
+      mkdirp(outName, function (err) {
+        if (err) {
+          return next(err);
+        }
+        next();
+      });
+    }
+  }))
+  .pipe(through(function (pathName, _, next) {
+    var outName = path.join(outDir, dealWith(pathName, opts));
+    fs.createReadStream(pathName)
+      .pipe(fs.createWriteStream(outName))
+      .on('error', function(error) {
+        next(error)
+      })
+      .on('finish', function () {
+        next();
+      });
   }))
   .on('error', callback)
-  .on('finish', function () {
-    callback();
-  });
+  .on('finish', callback);
 }
