@@ -29,7 +29,7 @@ function dealWith(inPath, up) {
   if (depth(inPath) < up) {
     throw new Error('cant go up that far');
   }
-  return path.join.apply(path, inPath.split(path.sep).slice(up));
+  return path.join.apply(path, path.normalize(inPath).split(path.sep).slice(up));
 }
 module.exports = copyFiles;
 function copyFiles(args, opts, callback) {
@@ -77,6 +77,7 @@ function copyFiles(args, opts, callback) {
   }))
   .pipe(through(function (pathName, _, next) {
     var outName = path.join(outDir, dealWith(pathName, opts));
+    console.log(pathName + ' => ' + outName);
     fs.createReadStream(pathName)
       .pipe(fs.createWriteStream(outName))
       .on('error', next)
