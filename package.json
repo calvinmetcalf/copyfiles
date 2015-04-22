@@ -3,7 +3,10 @@
   "version": "0.1.2",
   "description": "copy some files",
   "main": "index.js",
-  "bin": "./copyfiles",
+  "bin": {
+    "copyfiles": "./copyfiles",
+    "copyup": "./copyup"
+  },
   "scripts": {
     "test": "tape test/test.*.js | tspec"
   },
