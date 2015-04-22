@@ -60,7 +60,7 @@ does
 
 ## copyup
 
-also creates a `copyup` command which is identical to copyfiles bup -up defaults to 1
+also creates a `copyup` command which is identical to `copyfiles` but `-up` defaults to 1
 
 ### Programic API
 
