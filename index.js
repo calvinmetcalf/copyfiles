@@ -57,35 +57,30 @@ function copyFiles(args, opts, callback) {
     });
   }))
   .pipe(through(function (pathName, _, next) {
-    var pathStat = fs.statSync(pathName);
-    var outName = path.join(outDir, dealWith(pathName, opts));
-    var self = this;
-    if (pathStat.isFile()) {
-      mkdirp(path.dirname(outName), function (err) {
-        if (err) {
-          return next(err);
-        }
-        next(null, pathName);
-      });
-    } else if (pathStat.isDirectory()) {
-      mkdirp(outName, function (err) {
-        if (err) {
-          return next(err);
-        }
+    fs.stat(pathName, function (err, pathStat) {
+      if (err) {
+        return next(err);
+      }
+      var outName = path.join(outDir, dealWith(pathName, opts));
+      var self = this;
+      if (pathStat.isFile()) {
+        mkdirp(path.dirname(outName), function (err) {
+          if (err) {
+            return next(err);
+          }
+          next(null, pathName);
+        });
+      } else if (pathStat.isDirectory()) {
         next();
-      });
-    }
+      }
+    });
   }))
   .pipe(through(function (pathName, _, next) {
     var outName = path.join(outDir, dealWith(pathName, opts));
     fs.createReadStream(pathName)
       .pipe(fs.createWriteStream(outName))
-      .on('error', function(error) {
-        next(error)
-      })
-      .on('finish', function () {
-        next();
-      });
+      .on('error', next)
+      .on('finish', next);
   }))
   .on('error', callback)
   .on('finish', callback);
