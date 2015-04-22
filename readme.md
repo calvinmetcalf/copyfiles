@@ -10,7 +10,7 @@ npm install copyfiles -g
 ```
 ### Command Line
 
-copy some files, give it a bunch of arguments, (which can include globs), the last one 
+copy some files, give it a bunch of arguments, (which can include globs), the last one
 is the out directory (which it will create if necessary).
 
 ```bash
@@ -50,13 +50,17 @@ copyfiles -f ./foo/**/*.txt out
 
 does not work by default on a mac
 
-but 
+but
 
 ```bash
 copyfiles -f './foo/**/*.txt' out
 ```
 
 does
+
+## copyup
+
+also creates a `copyup` command which is identical to copyfiles bup -up defaults to 1
 
 ### Programic API
 
