@@ -62,7 +62,6 @@ function copyFiles(args, opts, callback) {
         return next(err);
       }
       var outName = path.join(outDir, dealWith(pathName, opts));
-      var self = this;
       if (pathStat.isFile()) {
         mkdirp(path.dirname(outName), function (err) {
           if (err) {
@@ -77,7 +76,6 @@ function copyFiles(args, opts, callback) {
   }))
   .pipe(through(function (pathName, _, next) {
     var outName = path.join(outDir, dealWith(pathName, opts));
-    console.log(pathName + ' => ' + outName);
     fs.createReadStream(pathName)
       .pipe(fs.createWriteStream(outName))
       .on('error', next)
