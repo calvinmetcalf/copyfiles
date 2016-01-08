@@ -3,14 +3,17 @@
 var copyfiles = require('./index');
 var pkg = require('./package.json');
 var program = require('ltcdr');
+var debug = require('debug')('copyfiles:mainbin');
 program.version(pkg.version)
   .option('-u, --up [levels]', 'slice a path off the bottom of the paths', parseInt)
   .option('-f, --flat', 'flatten the output')
   .usage('[options] inFile [more files ...] outDirectory')
   .parse(process.argv);
 if (program.flat) {
+  debug('up is true');
   program.up = true;
 }
+debug(program.args);
 copyfiles(program.args, program.up, function (err) {
   if (err) {
     console.error(err);

@@ -16,9 +16,9 @@ function after(t) {
 }
 function before(t) {
   mkdirp('input/other', function (err) {
-      t.error(err, 'rm input');
-      t.end();
-    });
+    t.error(err, 'rm input');
+    t.end();
+  });
 }
 
 test('normal', function (t) {
