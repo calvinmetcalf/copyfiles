@@ -56,7 +56,12 @@ but
 copyfiles -f './foo/**/*.txt' out
 ```
 
-does
+does.
+
+You could quote globstars as a part of input:
+```bash
+copyfiles some.json './some_folder/*.json' ./dist/ && echo 'JSON files copied.'
+```
 
 ## copyup
 
