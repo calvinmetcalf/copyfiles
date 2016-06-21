@@ -13,11 +13,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "glob": "^3.2.9",
+    "glob": "^7.0.5",
     "ltcdr": "^2.2.1",
-    "mkdirp": "^0.3.5",
+    "mkdirp": "^0.5.1",
     "noms": "0.0.0",
-    "through2": "^0.4.1"
+    "through2": "^2.0.1"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "rimraf": "^2.2.6",
-    "tape": "^2.10.2",
-    "tap-spec": "^0.1.5"
+    "tape": "^4.6.0",
+    "tap-spec": "^4.1.1"
   }
 }
