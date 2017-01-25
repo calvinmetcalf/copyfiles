@@ -32,21 +32,28 @@ function dealWith(inPath, up) {
   return path.join.apply(path, path.normalize(inPath).split(path.sep).slice(up));
 }
 module.exports = copyFiles;
-function copyFiles(args, opts, callback) {
-  if (typeof opts === 'function') {
-    callback = opts;
-    opts = 0;
+function copyFiles(args, config, callback) {
+  if (typeof config === 'function') {
+    callback = config;
+    config = {up:0};
   }
-  opts = opts || 0;
+  if (typeof config !== 'object' && config) {
+    config = {up: config};
+  }
+  var opts = config.up || 0;
   if (typeof callback !== 'function') {
     throw new Error('callback is not optional');
   }
   var input = args.slice();
   var outDir = input.pop();
+  var globOpts = {};
+  if (config.exclude) {
+    globOpts.ignore = config.exclude;
+  }
   toStream(input)
   .pipe(through(function (pathName, _, next) {
     var self = this;
-    glob(pathName, function (err, paths) {
+    glob(pathName, globOpts, function (err, paths) {
       if (err) {
         return next(err);
       }

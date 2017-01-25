@@ -38,7 +38,25 @@ test('normal', function (t) {
   });
   t.test('teardown', after);
 });
-
+test('exclude', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.writeFileSync('input/a.txt', 'a');
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/c.js.txt', 'c');
+    copyfiles( ['input/*.txt', 'output'], {
+      exclude: '**/*.js.txt'
+    }, function (err) {
+      t.error(err, 'copyfiles');
+      fs.readdir('output/input', function (err, files) {
+        t.error(err, 'readdir');
+        t.deepEquals(files, ['a.txt', 'b.txt'], 'correct number of things');
+        t.end();
+      });
+    });
+  });
+  t.test('teardown', after);
+});
 test('with up', function (t) {
   t.test('setup', before);
   t.test('copy stuff', function (t) {

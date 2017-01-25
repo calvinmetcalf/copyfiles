@@ -63,6 +63,12 @@ You could quote globstars as a part of input:
 copyfiles some.json './some_folder/*.json' ./dist/ && echo 'JSON files copied.'
 ```
 
+You can use the -e option to exclude some files from the pattern, so to exclude all all files ending in .test.js you could do
+
+```bash
+copyfiles -e "**/*.test.js" -f ./foo/**/*.js out
+```
+
 ## copyup
 
 also creates a `copyup` command which is identical to `copyfiles` but `-up` defaults to 1
