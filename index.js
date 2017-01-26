@@ -35,12 +35,13 @@ module.exports = copyFiles;
 function copyFiles(args, config, callback) {
   if (typeof config === 'function') {
     callback = config;
-    config = {up:0};
+    config = {up:0,soft:0};
   }
   if (typeof config !== 'object' && config) {
-    config = {up: config};
+    config = {up: config,soft:0};
   }
   var opts = config.up || 0;
+  var soft = config.soft || 0;
   if (typeof callback !== 'function') {
     throw new Error('callback is not optional');
   }
@@ -69,13 +70,30 @@ function copyFiles(args, config, callback) {
         return next(err);
       }
       var outName = path.join(outDir, dealWith(pathName, opts));
+	  var done = function(){  		
+	    mkdirp(path.dirname(outName), function (err) {
+	      if (err) {
+	        return next(err);
+	      }
+	      next(null, pathName);
+	    });
+	  }
       if (pathStat.isFile()) {
-        mkdirp(path.dirname(outName), function (err) {
-          if (err) {
-            return next(err);
-          }
-          next(null, pathName);
-        });
+      	if(soft){
+		  fs.stat(outName, function(err, outStat){
+		  	if(err === null){
+		  	  //file exists
+			  next()
+		  	}else if(err && err.code === "ENOENT"){
+		  	  //file does not exist
+		  	  done();
+		  	}else{
+			  return next(err)
+			}
+		  })
+      	}else{
+      	  done();
+      	}
       } else if (pathStat.isDirectory()) {
         next();
       }
