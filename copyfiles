@@ -7,6 +7,7 @@ program.version(pkg.version)
   .option('-u, --up [levels]', 'slice a path off the bottom of the paths', parseInt)
   .option('-f, --flat', 'flatten the output')
   .option('-e, --exclude [pattern]', 'pattern or glob to exclude')
+  .option('-s, --soft', 'do not overwrite destination files if they exist')
   .usage('[options] inFile [more files ...] outDirectory')
   .parse(process.argv);
 if (program.flat) {
