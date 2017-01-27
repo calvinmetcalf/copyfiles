@@ -81,7 +81,7 @@ function copyFiles(args, config, callback) {
       if (pathStat.isFile()) {
       	if(soft){
 		  fs.stat(outName, function(err, outStat){
-		  	if(err === null){
+		  	if(!err){
 		  	  //file exists
 			  next()
 		  	}else if(err && err.code === "ENOENT"){
