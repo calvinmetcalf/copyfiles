@@ -6,7 +6,7 @@ var program = require('ltcdr');
 program.version(pkg.version)
   .option('-u, --up [levels]', 'slice a path off the bottom of the paths', parseInt, 1)
   .option('-f, --flat', 'flatten the output')
-    .option('-e, --exclude', 'pattern or glob to exclude')
+  .option('-e, --exclude', 'pattern or glob to exclude')
   .option('-s, --soft', 'do not overwrite destination files if they exist')
   .usage('[options] inFile [more files ...] outDirectory')
   .parse(process.argv);
