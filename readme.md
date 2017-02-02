@@ -69,7 +69,10 @@ You can use the -e option to exclude some files from the pattern, so to exclude 
 copyfiles -e "**/*.test.js" -f ./foo/**/*.js out
 ```
 
-You can use the -s option to soft copy (existing files at destination will not be overwritten) 
+Other options include
+
+- `-a` or `--all` which includes files that start with a dot.
+- `-s` or `--soft` to soft copy, which will not overwrite existing files.
 
 ## copyup
 

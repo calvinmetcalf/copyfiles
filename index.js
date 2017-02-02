@@ -35,13 +35,17 @@ module.exports = copyFiles;
 function copyFiles(args, config, callback) {
   if (typeof config === 'function') {
     callback = config;
-    config = {up:0,soft:0};
+    config = {
+      up:0
+    };
   }
   if (typeof config !== 'object' && config) {
-    config = {up: config,soft:0};
+    config = {
+      up: config
+    };
   }
   var opts = config.up || 0;
-  var soft = config.soft || 0;
+  var soft = config.soft;
   if (typeof callback !== 'function') {
     throw new Error('callback is not optional');
   }
@@ -50,6 +54,9 @@ function copyFiles(args, config, callback) {
   var globOpts = {};
   if (config.exclude) {
     globOpts.ignore = config.exclude;
+  }
+  if (config.all) {
+    globOpts.dot = true;
   }
   toStream(input)
   .pipe(through(function (pathName, _, next) {
@@ -70,33 +77,35 @@ function copyFiles(args, config, callback) {
         return next(err);
       }
       var outName = path.join(outDir, dealWith(pathName, opts));
-	  var done = function(){  		
-	    mkdirp(path.dirname(outName), function (err) {
-	      if (err) {
-	        return next(err);
-	      }
-	      next(null, pathName);
-	    });
-	  }
-      if (pathStat.isFile()) {
-      	if(soft){
-		  fs.stat(outName, function(err, outStat){
-		  	if(!err){
-		  	  //file exists
-			  next()
-		  	}else if(err && err.code === "ENOENT"){
-		  	  //file does not exist
-		  	  done();
-		  	}else{
-			  return next(err)
-			}
-		  })
-      	}else{
-      	  done();
-      	}
-      } else if (pathStat.isDirectory()) {
-        next();
+      function done(){
+        mkdirp(path.dirname(outName), function (err) {
+          if (err) {
+            return next(err);
+          }
+          next(null, pathName);
+        });
       }
+      if (pathStat.isDirectory()) {
+        return next();
+      }
+      if (!pathStat.isFile()) {
+        return next(new Error('how can it be neither file nor folder?'))
+      }
+      if (!soft) {
+        return done();
+      }
+      fs.stat(outName, function(err){
+        if(!err){
+          //file exists
+          return next()
+        }
+        if (err.code === 'ENOENT') {
+          //file does not exist
+          return done();
+        }
+        // other error
+        return next(err)
+      })
     });
   }))
   .pipe(through(function (pathName, _, next) {
