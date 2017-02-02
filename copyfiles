@@ -13,7 +13,6 @@ program.version(pkg.version)
 if (program.flat) {
   program.up = true;
 }
-console.log(program.args)
 copyfiles(program.args, program, function (err) {
   if (err) {
     console.error(err);
