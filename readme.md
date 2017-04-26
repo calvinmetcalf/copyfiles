@@ -11,7 +11,7 @@ npm install copyfiles -g
 ### Command Line
 
 copy some files, give it a bunch of arguments, (which can include globs), the last one
-is the out directory (which it will create if necessary).
+is the out directory (which it will create if necessary).  Note: on windows globs must by **double quoted**, everybody else can quote however they please.
 
 ```bash
 copyfiles foo foobar foo/bar/*.js out
@@ -53,14 +53,14 @@ does not work by default on a mac
 but
 
 ```bash
-copyfiles -f './foo/**/*.txt' out
+copyfiles -f "./foo/**/*.txt" out
 ```
 
 does.
 
 You could quote globstars as a part of input:
 ```bash
-copyfiles some.json './some_folder/*.json' ./dist/ && echo 'JSON files copied.'
+copyfiles some.json "./some_folder/*.json" ./dist/ && echo 'JSON files copied.'
 ```
 
 You can use the -e option to exclude some files from the pattern, so to exclude all all files ending in .test.js you could do
