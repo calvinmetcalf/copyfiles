@@ -10,6 +10,20 @@ npm install copyfiles -g
 ```
 ### Command Line
 
+```bash
+  Usage: copyfiles [options] inFile [more files ...] outDirectory
+
+  Options:
+
+    -h, --help               output usage information
+    -V, --version            output the version number
+    -u, --up [levels]        slice a path off the bottom of the paths
+    -a --all                 include files and directories whose names begin with a dot (.)
+    -f, --flat               flatten the output
+    -e, --exclude [pattern]  pattern or glob to exclude
+    -s, --soft               do not overwrite destination files if they exist
+```
+
 copy some files, give it a bunch of arguments, (which can include globs), the last one
 is the out directory (which it will create if necessary).  Note: on windows globs must by **double quoted**, everybody else can quote however they please.
 
