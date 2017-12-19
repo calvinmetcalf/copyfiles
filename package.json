@@ -11,7 +11,7 @@
     "test": "tape test/test.*.js | tspec"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "glob": "^7.0.5",
     "ltcdr": "^2.2.1",
