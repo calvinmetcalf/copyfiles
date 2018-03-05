@@ -5,14 +5,12 @@ var args = require('yargs')
 
 args.alias('u', 'up')
   .describe('u', 'slice a path off the bottom of the paths')
-  .coerce('u', function (i) {
-    return parseInt(i, 10);
-  })
+  .number('u')
 if (args.argv.$0.indexOf('up') > -1) {
   args.default('u', '1');
 }
 args.alias('a', 'all')
-  .describe('a', 'include files and directories whose names begin with a dot (.)')
+  .describe('a', 'include files & directories begining with a dot (.)')
   .boolean('a')
   .alias('f','flat')
   .describe('f', 'flatten the output')
@@ -29,7 +27,6 @@ var argv = args.argv;
 if (argv.flat) {
   argv.up = true;
 }
-console.log('argv', argv)
 copyfiles(argv._, argv, function (err) {
   if (err) {
     console.error(err);

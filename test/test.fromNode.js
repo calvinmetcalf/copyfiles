@@ -66,9 +66,7 @@ test('exclude cl', function (t) {
     fs.writeFileSync('input/b.txt', 'b');
     fs.writeFileSync('input/c.js.txt', 'c');
     fs.writeFileSync('input/d.ps.txt', 'd');
-    var out = cp.spawnSync('./copyfiles', ['-e', '**/*.js.txt', '-e', '**/*.ps.txt', 'input/*.txt', 'output']);
-    console.log('info', out.stdout.toString());
-    console.log('er', out.stderr.toString());
+    cp.spawnSync('./copyfiles', ['-e', '**/*.js.txt', '-e', '**/*.ps.txt', 'input/*.txt', 'output']);
     fs.readdir('output/input', function (err, files) {
       t.error(err, 'readdir');
       t.deepEquals(files, ['a.txt', 'b.txt'], 'correct number of things');
