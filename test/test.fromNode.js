@@ -107,6 +107,36 @@ test('all from cl 2', function (t) {
   });
   t.test('teardown', after);
 });
+test('cl with single exclude', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.writeFileSync('input/a.txt', 'a');
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/c.txt', 'c');
+    cp.spawnSync('./copyfiles', ['-e', 'input/a*', 'input/*.txt', 'output']);
+    fs.readdir('output/input', function (err, files) {
+      t.error(err, 'readdir');
+      t.deepEquals(files, ['b.txt', 'c.txt'], 'correct number of things');
+      t.end();
+    });
+  });
+  t.test('teardown', after);
+});
+test('cl with multiple exclude', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.writeFileSync('input/a.txt', 'a');
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/c.txt', 'c');
+    cp.spawnSync('./copyfiles', ['-e', 'input/a*,input/b*', 'input/*.txt', 'output']);
+    fs.readdir('output/input', function (err, files) {
+      t.error(err, 'readdir');
+      t.deepEquals(files, ['c.txt'], 'correct number of things');
+      t.end();
+    });
+  });
+  t.test('teardown', after);
+});
 test('soft', function (t) {
   t.test('setup', before);
   t.test('copy stuff', function (t) {
