@@ -7,7 +7,7 @@ program.version(pkg.version)
   .option('-u, --up [levels]', 'slice a path off the bottom of the paths', parseInt)
   .option('-a --all', 'include files and directories whose names begin with a dot (.)')
   .option('-f, --flat', 'flatten the output')
-  .option('-e, --exclude [pattern]', 'pattern or glob to exclude')
+  .option('-e, --exclude [pattern]', 'pattern or glob to exclude', list)
   .option('-s, --soft', 'do not overwrite destination files if they exist')
   .usage('[options] inFile [more files ...] outDirectory')
   .parse(process.argv);
@@ -22,3 +22,6 @@ copyfiles(program.args, program, function (err) {
     process.exit(0);
   }
 });
+function list(val) {
+  return val.split(',');
+}
