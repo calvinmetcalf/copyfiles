@@ -45,8 +45,9 @@ test('exclude', function (t) {
     fs.writeFileSync('input/a.txt', 'a');
     fs.writeFileSync('input/b.txt', 'b');
     fs.writeFileSync('input/c.js.txt', 'c');
+    fs.writeFileSync('input/d.ps.txt', 'd');
     copyfiles( ['input/*.txt', 'output'], {
-      exclude: '**/*.js.txt'
+      exclude: ['**/*.js.txt', '**/*.ps.txt']
     }, function (err) {
       t.error(err, 'copyfiles');
       fs.readdir('output/input', function (err, files) {
@@ -54,6 +55,22 @@ test('exclude', function (t) {
         t.deepEquals(files, ['a.txt', 'b.txt'], 'correct number of things');
         t.end();
       });
+    });
+  });
+  t.test('teardown', after);
+});
+test('exclude cl', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.writeFileSync('input/a.txt', 'a');
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/c.js.txt', 'c');
+    fs.writeFileSync('input/d.ps.txt', 'd');
+    cp.spawnSync('./copyfiles', ['-e', '**/*.js.txt', '-e', '**/*.ps.txt', 'input/*.txt', 'output']);
+    fs.readdir('output/input', function (err, files) {
+      t.error(err, 'readdir');
+      t.deepEquals(files, ['a.txt', 'b.txt'], 'correct number of things');
+      t.end();
     });
   });
   t.test('teardown', after);
@@ -200,7 +217,36 @@ test('with up', function (t) {
   });
   t.test('teardown', after);
 });
-
+test('with up cl', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.writeFileSync('input/a.txt', 'a');
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/c.js', 'c');
+    cp.spawnSync('./copyfiles', ['-u', '1', 'input/*.txt', 'output']);
+    fs.readdir('output', function (err, files) {
+      t.error(err, 'readdir');
+      t.deepEquals(files, ['a.txt', 'b.txt'], 'correct number of things');
+      t.end();
+    });
+  });
+  t.test('teardown', after);
+});
+test('with copyup', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.writeFileSync('input/a.txt', 'a');
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/c.js', 'c');
+    cp.spawnSync('./copyup', ['input/*.txt', 'output']);
+    fs.readdir('output', function (err, files) {
+      t.error(err, 'readdir');
+      t.deepEquals(files, ['a.txt', 'b.txt'], 'correct number of things');
+      t.end();
+    });
+  });
+  t.test('teardown', after);
+});
 test('with up 2', function (t) {
   t.test('setup', before);
   t.test('copy stuff', function (t) {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "bin": {
     "copyfiles": "./copyfiles",
-    "copyup": "./copyup"
+    "copyup": "./copyfiles"
   },
   "scripts": {
     "test": "tape test/test.*.js | tspec"
@@ -14,11 +14,11 @@
   "license": "MIT",
   "dependencies": {
     "glob": "^7.0.5",
-    "ltcdr": "^2.2.1",
     "minimatch": "^3.0.3",
     "mkdirp": "^0.5.1",
     "noms": "0.0.0",
-    "through2": "^2.0.1"
+    "through2": "^2.0.1",
+    "yargs": "^11.0.0"
   },
   "repository": {
     "type": "git",
