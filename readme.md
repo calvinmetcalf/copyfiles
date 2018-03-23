@@ -25,7 +25,7 @@ npm install copyfiles -g
 ```
 
 copy some files, give it a bunch of arguments, (which can include globs), the last one
-is the out directory (which it will create if necessary).  Note: on windows globs must by **double quoted**, everybody else can quote however they please.
+is the out directory (which it will create if necessary).  Note: on windows globs must be **double quoted**, everybody else can quote however they please.
 
 ```bash
 copyfiles foo foobar foo/bar/*.js out
