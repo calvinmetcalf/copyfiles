@@ -1,4 +1,4 @@
-copyfiles [![Build Status](https://travis-ci.org/calvinmetcalf/copyfiles.png)](https://travis-ci.org/calvinmetcalf/copyfiles)
+copyfiles [![Build Status](https://travis-ci.org/calvinmetcalf/copyfiles.svg)](https://travis-ci.org/calvinmetcalf/copyfiles)
 ===
 
 copy files easily
