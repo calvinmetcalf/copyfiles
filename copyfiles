@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 'use strict';
 var copyfiles = require('./index');
-var args = require('yargs')
-
+var args = require('yargs');
+var path = require('path');
 args.alias('u', 'up')
   .describe('u', 'slice a path off the bottom of the paths')
   .number('u')
-if (args.argv.$0.indexOf('up') > -1) {
+if (path.basename(args.argv.$0) === 'copyup') {
   args.default('u', '1');
 }
 args.alias('a', 'all')
