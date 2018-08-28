@@ -39,6 +39,26 @@ test('normal', function (t) {
   });
   t.test('teardown', after);
 });
+test('modes', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.writeFileSync('input/a.txt', 'a', {
+      mode: 33261
+    });
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/c.js', 'c');
+    copyfiles(['input/*.txt', 'output'], function (err) {
+      t.error(err, 'copyfiles');
+      fs.readdir('output/input', function (err, files) {
+        t.error(err, 'readdir');
+        t.deepEquals(files, ['a.txt', 'b.txt'], 'correct number of things');
+        t.equals(fs.statSync('output/input/a.txt').mode, 33261, 'correct mode')
+        t.end();
+      });
+    });
+  });
+  t.test('teardown', after);
+});
 test('exclude', function (t) {
   t.test('setup', before);
   t.test('copy stuff', function (t) {
@@ -106,6 +126,16 @@ test('all from cl', function (t) {
       t.deepEquals(files, ['.c.txt', 'a.txt', 'b.txt'], 'correct number of things');
       t.end();
     });
+  });
+  t.test('teardown', after);
+});
+test('error on nothing coppied', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.writeFileSync('input/.c.txt', 'c');
+    var out = cp.spawnSync('./copyfiles', ['-E', 'input/*.txt', 'output']);
+    t.ok(out.status, 'should error');
+    t.end();
   });
   t.test('teardown', after);
 });

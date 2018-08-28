@@ -31,6 +31,24 @@ function dealWith(inPath, up) {
   }
   return path.join.apply(path, path.normalize(inPath).split(path.sep).slice(up));
 }
+var copyFile = _copyFile;
+function _copyFile (src, dst, opts, callback) {
+  fs.createReadStream(src)
+    .pipe(fs.createWriteStream(dst, {
+      mode: opts.mode
+    }))
+    .once('error', callback)
+    .once('finish', function () {
+      fs.chmod(dst, opts.mode, function (err) {
+        callback(err);
+      })
+    })
+}
+if (fs.copyFile) {
+  copyFile = function (src, dst, opts, callback) {
+    fs.copyFile(src, dst, callback);
+  }
+}
 module.exports = copyFiles;
 function copyFiles(args, config, callback) {
   if (typeof config === 'function') {
@@ -44,6 +62,7 @@ function copyFiles(args, config, callback) {
       up: config
     };
   }
+  var copied = false;
   var opts = config.up || 0;
   var soft = config.soft;
   if (typeof callback !== 'function') {
@@ -82,7 +101,10 @@ function copyFiles(args, config, callback) {
           if (err) {
             return next(err);
           }
-          next(null, pathName);
+          next(null, {
+            pathName: pathName,
+            pathStat: pathStat
+          });
         });
       }
       if (pathStat.isDirectory()) {
@@ -108,13 +130,20 @@ function copyFiles(args, config, callback) {
       })
     });
   }))
-  .pipe(through(function (pathName, _, next) {
+  .pipe(through(function (obj, _, next) {
+    if (!copied) {
+      copied = true;
+    }
+    var pathName = obj.pathName;
+    var pathStat = obj.pathStat;
     var outName = path.join(outDir, dealWith(pathName, opts));
-    fs.createReadStream(pathName)
-      .pipe(fs.createWriteStream(outName))
-      .on('error', next)
-      .on('finish', next);
+    copyFile(pathName, outName, pathStat, next)
   }))
   .on('error', callback)
-  .on('finish', callback);
+  .on('finish', function () {
+    if (config.E && !copied) {
+      return callback(new Error('nothing coppied'));
+    }
+    callback();
+  });
 }
