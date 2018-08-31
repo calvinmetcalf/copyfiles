@@ -71,6 +71,7 @@ function copyFiles(args, config, callback) {
       next();
     });
   }))
+  .on('error', callback)
   .pipe(through(function (pathName, _, next) {
     fs.stat(pathName, function (err, pathStat) {
       if (err) {
@@ -108,6 +109,7 @@ function copyFiles(args, config, callback) {
       })
     });
   }))
+  .on('error', callback)
   .pipe(through(function (pathName, _, next) {
     var outName = path.join(outDir, dealWith(pathName, opts));
     fs.createReadStream(pathName)
