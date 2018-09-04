@@ -14,14 +14,15 @@ npm install copyfiles -g
   Usage: copyfiles [options] inFile [more files ...] outDirectory
 
   Options:
-
-    -h, --help               output usage information
-    -V, --version            output the version number
-    -u, --up [levels]        slice a path off the bottom of the paths
-    -a --all                 include files and directories whose names begin with a dot (.)
-    -f, --flat               flatten the output
-    -e, --exclude [pattern]  pattern or glob to exclude
-    -s, --soft               do not overwrite destination files if they exist
+    -u, --up       slice a path off the bottom of the paths               [number]
+    -a, --all      include files & directories begining with a dot (.)   [boolean]
+    -f, --flat     flatten the output                                    [boolean]
+    -e, --exclude  pattern or glob to exclude (may be passed multiple times)
+    -E, --error    throw error if nothing is coppied                     [boolean]
+    -V, --verbose  print more information to console                     [boolean]
+    -s, --soft     do not overwrite destination files if they exist      [boolean]
+    -v, --version  Show version number                                   [boolean]
+    -h, --help     Show help                                             [boolean]
 ```
 
 copy some files, give it a bunch of arguments, (which can include globs), the last one
@@ -99,4 +100,4 @@ var copyfiles = require('copyfiles');
 
 copyfiles([paths], opt, callback);
 ```
-takes an array of paths, last one is the destination path, also takes an optional argument which the -u option if a number, otherwise if it's `true` it's the flat option.
+takes an array of paths, last one is the destination path, also takes an optional argument which the -u option if a number, otherwise if it's `true` it's the flat option or if it is an object it is a hash of the various options (the long version e.g. up, all, flat, exclude, error, verbose and soft)  
