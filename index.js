@@ -49,6 +49,14 @@ if (fs.copyFile) {
     fs.copyFile(src, dst, callback);
   }
 }
+function makeDebug(config) {
+  if (config.verbose) {
+    return function (thing) {
+      console.log(thing);
+    }
+  }
+  return function () {}
+}
 module.exports = copyFiles;
 function copyFiles(args, config, callback) {
   if (typeof config === 'function') {
@@ -62,6 +70,7 @@ function copyFiles(args, config, callback) {
       up: config
     };
   }
+  var debug = makeDebug(config);
   var copied = false;
   var opts = config.up || 0;
   var soft = config.soft;
@@ -85,6 +94,7 @@ function copyFiles(args, config, callback) {
         return next(err);
       }
       paths.forEach(function (unglobbedPath) {
+        debug(`unglobed path: ${unglobbedPath}`);
         self.push(unglobbedPath);
       });
       next();
@@ -108,6 +118,7 @@ function copyFiles(args, config, callback) {
         });
       }
       if (pathStat.isDirectory()) {
+        debug(`skipping, is directory: ${pathName}`)
         return next();
       }
       if (!pathStat.isFile()) {
@@ -131,17 +142,20 @@ function copyFiles(args, config, callback) {
     });
   }))
   .pipe(through(function (obj, _, next) {
+
     if (!copied) {
       copied = true;
     }
     var pathName = obj.pathName;
     var pathStat = obj.pathStat;
     var outName = path.join(outDir, dealWith(pathName, opts));
+    debug(`copy from: ${pathName}`)
+    debug(`copy to: ${outName}`)
     copyFile(pathName, outName, pathStat, next)
   }))
   .on('error', callback)
   .on('finish', function () {
-    if (config.E && !copied) {
+    if (config.error && !copied) {
       return callback(new Error('nothing coppied'));
     }
     callback();
