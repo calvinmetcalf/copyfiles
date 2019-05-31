@@ -5,7 +5,7 @@ var glob = require('glob');
 var through = require('through2').obj;
 var noms = require('noms').obj;
 
-function mkdirp(directory: string): void {
+function mkdirp(directory) {
   const dirPath = path.resolve(directory).replace(/\/$/, '').split(path.sep);
   for (let i = 1; i <= dirPath.length; i++) {
     const segment = dirPath.slice(0, i).join(path.sep);
