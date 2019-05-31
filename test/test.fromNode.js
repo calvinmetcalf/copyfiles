@@ -3,8 +3,9 @@ var test = require('tape');
 var copyfiles = require('../');
 var rimraf = require('rimraf');
 var fs = require('fs');
-var mkdirp = require('mkdirp');
 var cp = require('child_process');
+
+var mkdirp = require('../mkdirp');
 
 function after(t) {
   rimraf('output', function (err) {
@@ -16,10 +17,8 @@ function after(t) {
   });
 }
 function before(t) {
-  mkdirp('input/other', function (err) {
-    t.error(err, 'rm input');
-    t.end();
-  });
+  mkdirp('input/other')
+  t.end()
 }
 
 test('normal', function (t) {
@@ -157,42 +156,16 @@ test('all from cl 2', function (t) {
 test('soft', function (t) {
   t.test('setup', before);
   t.test('copy stuff', function (t) {
-    mkdirp('output/input/other', function(){
-      fs.writeFileSync('input/a.txt', 'inputA');
-      fs.writeFileSync('output/input/a.txt', 'outputA');
-      t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
-      fs.writeFileSync('input/b.txt', 'b');
-      fs.writeFileSync('input/other/c.txt', 'inputC');
-      fs.writeFileSync('output/input/other/c.txt', 'outputC');
-      fs.writeFileSync('input/other/d.txt', 'd');
-      copyfiles(['input/**/*.txt', 'output'], {soft:true}, function (err) {
-        t.error(err, 'copyfiles');
-        fs.readdir('output/input', function (err, files) {
-          t.error(err, 'readdir');
-          t.deepEquals(files, ['a.txt', 'b.txt', 'other'], 'correct number of things');
-          t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
-          t.equal( fs.readFileSync('output/input/b.txt').toString(), 'b')
-          t.equal( fs.readFileSync('output/input/other/c.txt').toString(), 'outputC')
-          t.end();
-        });
-      });
-    })
-  });
-  t.test('teardown', after);
-});
-test('soft from cl', function (t) {
-  t.test('setup', before);
-  t.test('copy stuff', function (t) {
-    mkdirp('output/input/other', function(){
-      fs.writeFileSync('input/a.txt', 'inputA');
-      fs.writeFileSync('output/input/a.txt', 'outputA');
-      t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
-      fs.writeFileSync('input/b.txt', 'b');
-      fs.writeFileSync('input/other/c.txt', 'inputC');
-      fs.writeFileSync('output/input/other/c.txt', 'outputC');
-      fs.writeFileSync('input/other/d.txt', 'd');
-      cp.spawnSync('./copyfiles', ['-s', 'input/**/*.txt', 'output']);
-
+    mkdirp('output/input/other')
+    fs.writeFileSync('input/a.txt', 'inputA');
+    fs.writeFileSync('output/input/a.txt', 'outputA');
+    t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/other/c.txt', 'inputC');
+    fs.writeFileSync('output/input/other/c.txt', 'outputC');
+    fs.writeFileSync('input/other/d.txt', 'd');
+    copyfiles(['input/**/*.txt', 'output'], {soft:true}, function (err) {
+      t.error(err, 'copyfiles');
       fs.readdir('output/input', function (err, files) {
         t.error(err, 'readdir');
         t.deepEquals(files, ['a.txt', 'b.txt', 'other'], 'correct number of things');
@@ -205,27 +178,50 @@ test('soft from cl', function (t) {
   });
   t.test('teardown', after);
 });
+test('soft from cl', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    mkdirp('output/input/other')
+    fs.writeFileSync('input/a.txt', 'inputA');
+    fs.writeFileSync('output/input/a.txt', 'outputA');
+    t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/other/c.txt', 'inputC');
+    fs.writeFileSync('output/input/other/c.txt', 'outputC');
+    fs.writeFileSync('input/other/d.txt', 'd');
+    cp.spawnSync('./copyfiles', ['-s', 'input/**/*.txt', 'output']);
+
+    fs.readdir('output/input', function (err, files) {
+      t.error(err, 'readdir');
+      t.deepEquals(files, ['a.txt', 'b.txt', 'other'], 'correct number of things');
+      t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
+      t.equal( fs.readFileSync('output/input/b.txt').toString(), 'b')
+      t.equal( fs.readFileSync('output/input/other/c.txt').toString(), 'outputC')
+      t.end();
+    });
+  });
+  t.test('teardown', after);
+});
 test('soft from cl 2', function (t) {
   t.test('setup', before);
   t.test('copy stuff', function (t) {
-    mkdirp('output/input/other', function(){
-      fs.writeFileSync('input/a.txt', 'inputA');
-      fs.writeFileSync('output/input/a.txt', 'outputA');
-      t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
-      fs.writeFileSync('input/b.txt', 'b');
-      fs.writeFileSync('input/other/c.txt', 'inputC');
-      fs.writeFileSync('output/input/other/c.txt', 'outputC');
-      fs.writeFileSync('input/other/d.txt', 'd');
-      cp.spawnSync('./copyfiles', ['--soft', 'input/**/*.txt', 'output']);
+    mkdirp('output/input/other')
+    fs.writeFileSync('input/a.txt', 'inputA');
+    fs.writeFileSync('output/input/a.txt', 'outputA');
+    t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
+    fs.writeFileSync('input/b.txt', 'b');
+    fs.writeFileSync('input/other/c.txt', 'inputC');
+    fs.writeFileSync('output/input/other/c.txt', 'outputC');
+    fs.writeFileSync('input/other/d.txt', 'd');
+    cp.spawnSync('./copyfiles', ['--soft', 'input/**/*.txt', 'output']);
 
-      fs.readdir('output/input', function (err, files) {
-        t.error(err, 'readdir');
-        t.deepEquals(files, ['a.txt', 'b.txt', 'other'], 'correct number of things');
-        t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
-        t.equal( fs.readFileSync('output/input/b.txt').toString(), 'b')
-        t.equal( fs.readFileSync('output/input/other/c.txt').toString(), 'outputC')
-        t.end();
-      });
+    fs.readdir('output/input', function (err, files) {
+      t.error(err, 'readdir');
+      t.deepEquals(files, ['a.txt', 'b.txt', 'other'], 'correct number of things');
+      t.equal( fs.readFileSync('output/input/a.txt').toString(), 'outputA' )
+      t.equal( fs.readFileSync('output/input/b.txt').toString(), 'b')
+      t.equal( fs.readFileSync('output/input/other/c.txt').toString(), 'outputC')
+      t.end();
     });
   });
   t.test('teardown', after);

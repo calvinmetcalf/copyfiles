@@ -4,16 +4,7 @@ var fs = require('fs');
 var glob = require('glob');
 var through = require('through2').obj;
 var noms = require('noms').obj;
-
-function mkdirp(directory) {
-  const dirPath = path.resolve(directory).replace(/\/$/, '').split(path.sep);
-  for (let i = 1; i <= dirPath.length; i++) {
-    const segment = dirPath.slice(0, i).join(path.sep);
-    if (!fs.existsSync(segment) && segment.length > 0) {
-      fs.mkdirSync(segment);
-    }
-  }
-}
+var mkdirp = require('./mkdirp')
 
 function toStream(array) {
   var length = array.length;
@@ -68,6 +59,7 @@ function makeDebug(config) {
   return function () {}
 }
 module.exports = copyFiles;
+
 function copyFiles(args, config, callback) {
   if (typeof config === 'function') {
     callback = config;
@@ -118,15 +110,11 @@ function copyFiles(args, config, callback) {
       }
       var outName = path.join(outDir, dealWith(pathName, opts));
       function done(){
-        mkdirp(path.dirname(outName), function (err) {
-          if (err) {
-            return next(err);
-          }
-          next(null, {
-            pathName: pathName,
-            pathStat: pathStat
-          });
-        });
+        mkdirp(path.dirname(outName))
+        next(null, {
+          pathName: pathName,
+          pathStat: pathStat
+        })
       }
       if (pathStat.isDirectory()) {
         debug(`skipping, is directory: ${pathName}`)
