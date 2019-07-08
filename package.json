@@ -18,7 +18,7 @@
     "mkdirp": "^0.5.1",
     "noms": "0.0.0",
     "through2": "^2.0.1",
-    "yargs": "^11.0.0"
+    "yargs": "^13.2.4"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,6 @@
   "devDependencies": {
     "rimraf": "^2.2.6",
     "tape": "^4.6.0",
-    "tap-spec": "^4.1.1"
+    "tap-spec": "^5.0.0"
   }
 }
