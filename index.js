@@ -154,13 +154,14 @@ function copyFiles(args, config, callback) {
     var outName = path.join(outDir, dealWith(pathName, opts));
     debug(`copy from: ${pathName}`)
     debug(`copy to: ${outName}`)
+    var cwd = process.cwd();
     copyFile(pathName, outName, pathStat, function(err) {
       if (err) {
         return next(err);
       }
       results.push({
-        from: path.resolve(process.cwd(), pathName),
-        to: path.resolve(process.cwd(), outName),
+        from: path.resolve(cwd, pathName),
+        to: path.resolve(cwd, outName),
       });
       next();
     })
