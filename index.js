@@ -86,6 +86,7 @@ function copyFiles(args, config, callback) {
   if (config.all) {
     globOpts.dot = true;
   }
+  var results = [];
   toStream(input)
   .pipe(through(function (pathName, _, next) {
     var self = this;
@@ -153,13 +154,22 @@ function copyFiles(args, config, callback) {
     var outName = path.join(outDir, dealWith(pathName, opts));
     debug(`copy from: ${pathName}`)
     debug(`copy to: ${outName}`)
-    copyFile(pathName, outName, pathStat, next)
+    copyFile(pathName, outName, pathStat, function(err) {
+      if (err) {
+        return next(err);
+      }
+      results.push({
+        from: path.resolve(process.cwd(), pathName),
+        to: path.resolve(process.cwd(), outName),
+      });
+      next();
+    })
   }))
   .on('error', callback)
   .on('finish', function () {
     if (config.error && !copied) {
       return callback(new Error('nothing coppied'));
     }
-    callback();
+    callback(null, results);
   });
 }
