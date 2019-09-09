@@ -15,14 +15,14 @@ npm install copyfiles -g
 
   Options:
     -u, --up       slice a path off the bottom of the paths               [number]
-    -a, --all      include files & directories begining with a dot (.)    [boolean]
-    -f, --flat     flatten the output                                     [boolean]
+    -a, --all      include files & directories begining with a dot (.)   [boolean]
+    -f, --flat     flatten the output                                    [boolean]
     -e, --exclude  pattern or glob to exclude (may be passed multiple times)
-    -E, --error    throw error if nothing is copied                       [boolean]
-    -V, --verbose  print more information to console                      [boolean]
-    -s, --soft     do not overwrite destination files if they exist       [boolean]
-    -v, --version  Show version number                                    [boolean]
-    -h, --help     Show help                                              [boolean]
+    -E, --error    throw error if nothing is copied                      [boolean]
+    -V, --verbose  print more information to console                     [boolean]
+    -s, --soft     do not overwrite destination files if they exist      [boolean]
+    -v, --version  Show version number                                   [boolean]
+    -h, --help     Show help                                             [boolean]
 ```
 
 copy some files, give it a bunch of arguments, (which can include globs), the last one
