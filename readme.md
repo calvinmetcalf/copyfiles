@@ -18,7 +18,7 @@ npm install copyfiles -g
     -a, --all      include files & directories begining with a dot (.)   [boolean]
     -f, --flat     flatten the output                                    [boolean]
     -e, --exclude  pattern or glob to exclude (may be passed multiple times)
-    -E, --error    throw error if nothing is coppied                     [boolean]
+    -E, --error    throw error if nothing is copied                      [boolean]
     -V, --verbose  print more information to console                     [boolean]
     -s, --soft     do not overwrite destination files if they exist      [boolean]
     -v, --version  Show version number                                   [boolean]
