@@ -100,4 +100,15 @@ var copyfiles = require('copyfiles');
 
 copyfiles([paths], opt, callback);
 ```
-takes an array of paths, last one is the destination path, also takes an optional argument which the -u option if a number, otherwise if it's `true` it's the flat option or if it is an object it is a hash of the various options (the long version e.g. up, all, flat, exclude, error, verbose and soft)  
+
+Takes an array of paths, last one is the destination path, also takes an optional argument which the -u option if a number, otherwise if it's `true` it's the flat option or if it is an object it is a hash of the various options (the long version e.g. up, all, flat, exclude, error, verbose and soft).
+
+The callback is a typical Node.js-style error-first callback, where the second argument is an array containing information about where files have been copied from and to.
+
+```js
+copyfiles(['./src/**/*.json', './dist'], { up: 1 }, (err, files) => {
+  if (!err) {
+    console.log(files); // [ { from: '/app/src/foo.json', to: '/app/dist/foo.json' } ]
+  }
+});
+```
