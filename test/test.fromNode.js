@@ -5,6 +5,7 @@ var rimraf = require('rimraf');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var cp = require('child_process');
+var glob = require('glob');
 
 function after(t) {
   rimraf('output', function (err) {
@@ -305,6 +306,24 @@ test('flatten', function (t) {
       fs.readdir('output', function (err, files) {
         t.error(err, 'readdir');
         t.deepEquals(files, ['a.txt', 'b.txt'], 'correct number of things');
+        t.end();
+      });
+    });
+  });
+  t.test('teardown', after);
+});
+test('follow', function (t) {
+  t.test('setup', before);
+  t.test('copy stuff', function (t) {
+    fs.mkdirSync('input/origin');
+    fs.mkdirSync('input/origin/inner');
+    fs.writeFileSync('input/origin/inner/a.txt', 'a');
+    fs.symlinkSync('origin', 'input/dest');
+    copyfiles(['input/**/*.txt', 'output'], { up: 1, follow: true }, function (err) {
+      t.error(err, 'copyfiles');
+      glob('output/**/*.txt', function (err, files) {
+        t.error(err, 'readdir');
+        t.deepEquals(files, ['output/dest/inner/a.txt', 'output/origin/inner/a.txt'], 'correct number of things');
         t.end();
       });
     });

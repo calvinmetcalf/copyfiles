@@ -26,9 +26,12 @@ args.alias('a', 'all')
   .alias('s','soft')
   .boolean('s')
   .describe('s', 'do not overwrite destination files if they exist')
-  .usage('$0 [options] inFile [more files ...] outDirectory').help()
+  .boolean('follow')
+  .describe('follow', 'follow symbolink links')
+  .usage('$0 [options] inFile [more files ...] outDirectory')
+  .help()
   .alias('v', 'version')
-  .alias('h', 'help')
+  .alias('h', 'help');
 var argv = args.argv;
 if (argv.flat) {
   argv.up = true;

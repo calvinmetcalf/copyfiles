@@ -86,6 +86,9 @@ function copyFiles(args, config, callback) {
   if (config.all) {
     globOpts.dot = true;
   }
+  if (config.follow) {
+    globOpts.follow = true;
+  }
   toStream(input)
   .pipe(through(function (pathName, _, next) {
     var self = this;
