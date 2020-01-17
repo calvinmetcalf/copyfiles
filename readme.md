@@ -21,6 +21,7 @@ npm install copyfiles -g
     -E, --error    throw error if nothing is copied                      [boolean]
     -V, --verbose  print more information to console                     [boolean]
     -s, --soft     do not overwrite destination files if they exist      [boolean]
+    -F, --follow   follow symbolink links                                [boolean]
     -v, --version  Show version number                                   [boolean]
     -h, --help     Show help                                             [boolean]
 ```
@@ -88,6 +89,7 @@ Other options include
 
 - `-a` or `--all` which includes files that start with a dot.
 - `-s` or `--soft` to soft copy, which will not overwrite existing files.
+- `-F` or `--follow` which follows symbolinks
 
 ## copyup
 
@@ -100,4 +102,4 @@ var copyfiles = require('copyfiles');
 
 copyfiles([paths], opt, callback);
 ```
-takes an array of paths, last one is the destination path, also takes an optional argument which the -u option if a number, otherwise if it's `true` it's the flat option or if it is an object it is a hash of the various options (the long version e.g. up, all, flat, exclude, error, verbose and soft)  
+takes an array of paths, last one is the destination path, also takes an optional argument which the -u option if a number, otherwise if it's `true` it's the flat option or if it is an object it is a hash of the various options (the long version e.g. up, all, flat, exclude, error, verbose, follow, and soft)  
