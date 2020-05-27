@@ -111,15 +111,12 @@ function copyFiles(args, config, callback) {
       }
       var outName = path.join(outDir, dealWith(pathName, opts));
       function done(){
-        mkdirp(path.dirname(outName), function (err) {
-          if (err) {
-            return next(err);
-          }
+        mkdirp(path.dirname(outName)).then(()=>{
           next(null, {
             pathName: pathName,
             pathStat: pathStat
           });
-        });
+        }, next);
       }
       if (pathStat.isDirectory()) {
         debug(`skipping, is directory: ${pathName}`)

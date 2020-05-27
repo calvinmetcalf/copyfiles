@@ -3,10 +3,14 @@ var test = require('tape');
 var copyfiles = require('../');
 var rimraf = require('rimraf');
 var fs = require('fs');
-var mkdirp = require('mkdirp');
+var _mkdirp = require('mkdirp');
 var cp = require('child_process');
 var glob = require('glob');
-
+const mkdirp = (path, cb) => {
+  _mkdirp(path).then(()=>{
+    cb();
+  }, cb);
+}
 function after(t) {
   rimraf('output', function (err) {
     t.error(err, 'rm out');
