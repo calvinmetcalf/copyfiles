@@ -1,6 +1,6 @@
 {
-  "name": "copyfiles",
-  "version": "2.3.0",
+  "name": "@wunaidage/copyfiles",
+  "version": "2.3.2",
   "description": "copy some files",
   "main": "index.js",
   "bin": {
@@ -18,6 +18,7 @@
     "mkdirp": "^1.0.4",
     "noms": "0.0.0",
     "through2": "^2.0.1",
+    "untildify": "^4.0.0",
     "yargs": "^15.3.1"
   },
   "repository": {
