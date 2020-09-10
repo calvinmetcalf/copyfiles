@@ -3,6 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var glob = require('glob');
 var mkdirp = require('mkdirp');
+var untildify = require('untildify');
 var through = require('through2').obj;
 var noms = require('noms').obj;
 function toStream(array) {
@@ -89,7 +90,8 @@ function copyFiles(args, config, callback) {
   if (config.follow) {
     globOpts.follow = true;
   }
-  toStream(input)
+  outDir = outDir.startsWith('~') ? untildify(outDir) : outDir;
+  toStream(input.map(function(srcP) {return srcP.startsWith('~') ? untildify(srcP) : srcP;}))
   .pipe(through(function (pathName, _, next) {
     var self = this;
     glob(pathName, globOpts, function (err, paths) {

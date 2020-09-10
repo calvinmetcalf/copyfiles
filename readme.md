@@ -1,5 +1,11 @@
 copyfiles [![Build Status](https://travis-ci.org/calvinmetcalf/copyfiles.svg)](https://travis-ci.org/calvinmetcalf/copyfiles)
 ===
+```
+this version added tilde for home directory expansion support on both src and dest
+```
+when under windows, if use tilde, please make sure -u or -f is added in options or use copyup command
+if not you will get `Error: Illegal characters in path.`
+***
 
 copy files easily
 
