@@ -1,6 +1,6 @@
 {
-  "name": "@wunaidage/copyfiles",
-  "version": "2.3.2",
+  "name": "copyfiles",
+  "version": "2.3.0",
   "description": "copy some files",
   "main": "index.js",
   "bin": {
