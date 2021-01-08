@@ -134,7 +134,7 @@ test('all from cl', function (t) {
   });
   t.test('teardown', after);
 });
-test('error on nothing coppied', function (t) {
+test('error on nothing copied', function (t) {
   t.test('setup', before);
   t.test('copy stuff', function (t) {
     fs.writeFileSync('input/.c.txt', 'c');

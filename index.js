@@ -160,7 +160,7 @@ function copyFiles(args, config, callback) {
   .on('error', callback)
   .on('finish', function () {
     if (config.error && !copied) {
-      return callback(new Error('nothing coppied'));
+      return callback(new Error('nothing copied'));
     }
     callback();
   });
