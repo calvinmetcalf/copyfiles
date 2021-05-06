@@ -6,7 +6,8 @@ var mkdirp = require('mkdirp');
 var untildify = require('untildify');
 var through = require('through2').obj;
 var noms = require('noms').obj;
-function toStream(array) {
+function toStream(_array) {
+  var array = _array.filter(item=>item!==null)
   var length = array.length;
   var i = 0;
   return noms(function (done) {
