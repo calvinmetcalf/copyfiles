@@ -15,7 +15,6 @@
   "dependencies": {
     "glob": "^7.0.5",
     "minimatch": "^3.0.3",
-    "mkdirp": "^1.0.4",
     "noms": "0.0.0",
     "through2": "^2.0.1",
     "untildify": "^4.0.0",
@@ -27,7 +26,7 @@
   },
   "devDependencies": {
     "rimraf": "^2.2.6",
-    "tape": "^4.6.0",
-    "tap-spec": "^5.0.0"
+    "tap-spec": "^5.0.0",
+    "tape": "^4.6.0"
   }
 }

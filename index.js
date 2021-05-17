@@ -2,7 +2,6 @@
 var path = require('path');
 var fs = require('fs');
 var glob = require('glob');
-var mkdirp = require('mkdirp');
 var untildify = require('untildify');
 var through = require('through2').obj;
 var noms = require('noms').obj;
@@ -113,7 +112,7 @@ function copyFiles(args, config, callback) {
       }
       var outName = path.join(outDir, dealWith(pathName, opts));
       function done(){
-        mkdirp(path.dirname(outName)).then(()=>{
+        fs.promises.mkdir(path.dirname(outName), {recursive: true}).then(()=>{
           next(null, {
             pathName: pathName,
             pathStat: pathStat
