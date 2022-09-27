@@ -74,7 +74,7 @@ function copyFiles(args, config, callback) {
   }
   var debug = makeDebug(config);
   var copied = false;
-  var opts = config.up || 0;
+  var opts = config.flat || config.up || 0;
   var soft = config.soft;
   if (typeof callback !== 'function') {
     throw new Error('callback is not optional');
