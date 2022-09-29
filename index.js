@@ -29,7 +29,7 @@ function dealWith(inPath, up) {
     return path.basename(inPath);
   }
   if (depth(inPath) < up) {
-    throw new Error('cant go up that far');
+    throw new Error(`Can't go up ${up} levels from ${inPath} (${depth(inPath)} levels).`);
   }
   return path.join.apply(path, path.normalize(inPath).split(path.sep).slice(up));
 }
