@@ -79,13 +79,18 @@ function copyFiles(args, config, callback) {
   if (typeof config === 'function') {
     callback = config;
     config = {
-      up:0
+      up: 0
     };
-  }
-  if (typeof config !== 'object' && config) {
-    config = {
-      up: config
-    };
+  } else {
+    if (typeof config !== 'object' && config) {
+      config = {
+        up: config
+      };
+    }
+  
+    // this is necessary to make sure config will be an object
+    // and no 'null | undefined referrence error' will be raised.
+    config = Object.assign({ }, config);
   }
 
   var debug = makeDebug(config);
@@ -114,7 +119,8 @@ function copyFiles(args, config, callback) {
   outDir = outDir.startsWith('~') ? untildify(outDir) : outDir;
 
   toStream(input.map(function(srcP) {
-    return srcP.startsWith('~') ? untildify(srcP) : srcP;})
+      return srcP.startsWith('~') ? untildify(srcP) : srcP;
+    })
   )
   .pipe(through(function (pathName, _, next) {
     var self = this;
