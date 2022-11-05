@@ -14,7 +14,7 @@ npm install copyfiles -g
   Usage: copyfiles [options] inFile [more files ...] outDirectory
 
   Options:
-    -u, --up       slice a path off the bottom of the paths               [number]
+    -u, --up       slice a path off the bottom of the paths              [number]
     -a, --all      include files & directories begining with a dot (.)   [boolean]
     -f, --flat     flatten the output                                    [boolean]
     -e, --exclude  pattern or glob to exclude (may be passed multiple times)
@@ -103,25 +103,24 @@ var copyfiles = require('copyfiles');
 copyfiles([paths], opt, callback);
 ```
 takes an array of paths whose last element is assumed the destination path.
-also takes an options argument which could be either of the following values:
+also takes an options argument (`opt`) which could be either of the following types:
 
 - `function`: it is used as `callback` (supercedes `callback` argument)
 - `number`: it is assumed as a value for -u option.
 - `bool`: if it is `true` it's the flat option
-- `object`: an options object with the following structure:
+- `object`: an object with the following structure:
 
 ```javascript
 {
-	verbose: bool,  // enable debug messages
-	up: number, // -u value
-	soft: bool,	// soft copy (skip existing dirs & files)
+	verbose: bool,    // enable debug messages
+	up: number,       // -u value
+	soft: bool,	  // soft copy (skip existing dirs & files)
 	exclude: string,  // exclude pattern
-	all: bool,		// include dot files
-	follow: bool	// Follow symlinked directories when expanding ** patterns
-	error: bool // raise errors if no files copied
+	all: bool,	  // include dot files
+	follow: bool,	  // Follow symlinked directories when expanding ** patterns
+	error: bool       // raise errors if no files copied
 }
 ```
-
 
 ### Tilde support for home directory
 when the src/dest path start with tilde for home directory under windows, please make sure -u or -f is added in options or use copyup command. if not you will get `Error: Illegal characters in path.`
