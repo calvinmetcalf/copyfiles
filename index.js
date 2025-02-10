@@ -1,7 +1,7 @@
 'use strict';
 var path = require('path');
 var fs = require('fs');
-var glob = require('glob');
+var { globSync } = require('glob');
 var mkdirp = require('mkdirp');
 var untildify = require('untildify');
 var through = require('through2').obj;
@@ -95,16 +95,16 @@ function copyFiles(args, config, callback) {
   toStream(input.map(function(srcP) {return srcP.startsWith('~') ? untildify(srcP) : srcP;}))
   .pipe(through(function (pathName, _, next) {
     var self = this;
-    glob(pathName, globOpts, function (err, paths) {
-      if (err) {
-        return next(err);
-      }
+    try {
+      const paths = globSync(pathName, globOpts)
       paths.forEach(function (unglobbedPath) {
         debug(`unglobed path: ${unglobbedPath}`);
         self.push(unglobbedPath);
       });
       next();
-    });
+    } catch (err) {
+      next(err)
+    }
   }))
   .on('error', callback)
   .pipe(through(function (pathName, _, next) {

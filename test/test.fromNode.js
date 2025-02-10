@@ -5,7 +5,7 @@ var rimraf = require('rimraf');
 var fs = require('fs');
 var _mkdirp = require('mkdirp');
 var cp = require('child_process');
-var glob = require('glob');
+var { globSync } = require('glob');
 const mkdirp = (path, cb) => {
   _mkdirp(path).then(()=>{
     cb();
@@ -325,11 +325,9 @@ test('follow', function (t) {
     fs.symlinkSync('origin', 'input/dest');
     copyfiles(['input/**/*.txt', 'output'], { up: 1, follow: true }, function (err) {
       t.error(err, 'copyfiles');
-      glob('output/**/*.txt', function (err, files) {
-        t.error(err, 'readdir');
-        t.deepEquals(files, ['output/dest/inner/a.txt', 'output/origin/inner/a.txt'], 'correct number of things');
-        t.end();
-      });
+      const files = globSync('output/**/*.txt');
+      t.deepEquals(files, ['output/origin/inner/a.txt', 'output/dest/inner/a.txt'], 'correct number of things');
+      t.end();
     });
   });
   t.test('teardown', after);
